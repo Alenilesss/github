@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="果冻积分小屋">
+  <rect width="64" height="64" rx="15" fill="#FF6B6B" />
+  <ellipse cx="32" cy="51" rx="20" ry="4.2" fill="#FFF7E8" />
+  <path d="M15.5 30h33l-4.2 16.2A6 6 0 0 1 38.5 51h-13a6 6 0 0 1-5.8-4.8z" fill="#FFF3D0" />
+  <ellipse cx="32" cy="30" rx="16.5" ry="6.2" fill="#C1772C" />
+  <ellipse cx="25.5" cy="28.6" rx="6.4" ry="2.2" fill="#D6924B" />
+  <circle cx="33" cy="20" r="5.2" fill="#DB3B3B" />
+  <circle cx="31.4" cy="18.4" r="1.5" fill="#FF968C" />
+  <path d="M34.6 15.6c.8-2.6 2.6-3.8 3.9-3.9" stroke="#694E37" stroke-width="2.1" fill="none" stroke-linecap="round" />
+  <circle cx="27" cy="38.5" r="2.1" fill="#5C402D" />
+  <circle cx="37" cy="38.5" r="2.1" fill="#5C402D" />
+  <path d="M28 42.6c1.6 2.1 6.4 2.1 8 0" stroke="#5C402D" stroke-width="2" fill="none" stroke-linecap="round" />
+</svg>
