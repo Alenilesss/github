@@ -1,0 +1,63 @@
+name: mirror-web
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/trigger/**"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mirror-web
+  cancel-in-progress: true
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 从云开发静态托管同步网页
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request
+
+          BASE = "https://guodong-d2gwsrxhae4eddc6b-1304546170.tcloudbaseapp.com/"
+          with urllib.request.urlopen(BASE + "site.json", timeout=60) as resp:
+              manifest = json.load(resp)
+
+          files = manifest["files"]
+          base = manifest.get("base") or BASE
+          for path in files:
+              url = base + path
+              folder = os.path.dirname(path)
+              if folder:
+                  os.makedirs(folder, exist_ok=True)
+              with urllib.request.urlopen(url, timeout=120) as resp, open(path, "wb") as fh:
+                  fh.write(resp.read())
+              print("synced", path)
+
+          keep = set(files)
+          for root, _dirs, names in os.walk("assets"):
+              for name in names:
+                  rel = os.path.join(root, name).replace("\\", "/")
+                  if rel not in keep:
+                      os.remove(rel)
+                      print("removed", rel)
+          PY
+
+      - name: 有变化才提交
+        run: |
+          git config user.name "jelly-web-sync"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "已经是服务端最新版本，无需提交"
+          else
+            git commit -m "web: 同步站点 $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            git push
+          fi
